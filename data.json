@@ -1,0 +1,72 @@
+[
+    {
+        "hours_studied": "1",
+        "attendance_percent": "60",
+        "assignments_completed": "2",
+        "sleep_hours": "5",
+        "exam_score": "45"
+    },
+    {
+        "hours_studied": "2",
+        "attendance_percent": "65",
+        "assignments_completed": "3",
+        "sleep_hours": "6",
+        "exam_score": "50"
+    },
+    {
+        "hours_studied": "3",
+        "attendance_percent": "70",
+        "assignments_completed": "3",
+        "sleep_hours": "6",
+        "exam_score": "55"
+    },
+    {
+        "hours_studied": "4",
+        "attendance_percent": "72",
+        "assignments_completed": "4",
+        "sleep_hours": "7",
+        "exam_score": "60"
+    },
+    {
+        "hours_studied": "5",
+        "attendance_percent": "75",
+        "assignments_completed": "5",
+        "sleep_hours": "7",
+        "exam_score": "64"
+    },
+    {
+        "hours_studied": "6",
+        "attendance_percent": "80",
+        "assignments_completed": "5",
+        "sleep_hours": "7",
+        "exam_score": "70"
+    },
+    {
+        "hours_studied": "7",
+        "attendance_percent": "82",
+        "assignments_completed": "6",
+        "sleep_hours": "8",
+        "exam_score": "74"
+    },
+    {
+        "hours_studied": "8",
+        "attendance_percent": "88",
+        "assignments_completed": "7",
+        "sleep_hours": "8",
+        "exam_score": "82"
+    },
+    {
+        "hours_studied": "9",
+        "attendance_percent": "92",
+        "assignments_completed": "8",
+        "sleep_hours": "8",
+        "exam_score": "88"
+    },
+    {
+        "hours_studied": "10",
+        "attendance_percent": "95",
+        "assignments_completed": "9",
+        "sleep_hours": "9",
+        "exam_score": "93"
+    }
+]
