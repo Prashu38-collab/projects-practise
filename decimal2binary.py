@@ -11,5 +11,4 @@ def decimaltobinary():
     print("Binary: ", binary)
 decimaltobinary()
    
-
     
