@@ -1,3 +1,5 @@
+Here i will update my readme as a key lesson i learned for building every project. This repo is all about learning python through projects which help me to understand how things work.
+
 CSV to JSON Converter
 
 Key point I learned: 
