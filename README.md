@@ -14,3 +14,5 @@ These keys become the column headers in the CSV.
 
 we use writeheader() to write the header 
 writerows() to write all the data rows into the CSV file.
+
+In my project, qr code generator i understand how python module qr code easily generates qr code for us we just need one varible lets say data for the content to qr code and how we change the color to green by creating an instance of qr class and fillcolor=green and backcolor=white
