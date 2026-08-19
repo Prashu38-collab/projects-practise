@@ -18,3 +18,8 @@ writerows() to write all the data rows into the CSV file.
 qr code generator
 
 In my project, qr code generator i understand how python module qr code easily generates qr code for us we just need one varible lets say data for the content to qr code and how we change the color to green by creating an instance of qr class and fillcolor=green and backcolor=white
+
+PDF text to audio:
+
+In this project I understand the module pyttsx , it is an offline text to speech data that allows our programs to speak text out loud or save spoken audio to files. Pypdf2 is also used, it is used to manipulate pdf files here we will read the pdf. 
+Its so interesting that people have created so many modules for smooth software development. 
