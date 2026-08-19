@@ -22,4 +22,6 @@ In my project, qr code generator i understand how python module qr code easily g
 PDF text to audio:
 
 In this project I understand the module pyttsx , it is an offline text to speech data that allows our programs to speak text out loud or save spoken audio to files. Pypdf2 is also used, it is used to manipulate pdf files here we will read the pdf. 
+PDF file reader will help me to read pdf
+numpages will help me to read out any pages from the book
 Its so interesting that people have created so many modules for smooth software development. 
