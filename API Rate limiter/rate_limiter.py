@@ -15,12 +15,22 @@ class FixedWindowRateLimiter:
         client = self.clients[client_id]
 
          # Check whether the window has expired
-        if current_time - client["window_start"] >= self.window_size:
+        if current_time - client["windows_start"] >= self.window_size:
             client["request_count"] = 0
-            client["window_start"] = current_time
+            client["windows_start"] = current_time
         # checking the limits
 
         if client["request_count"] < self.limit:
             client["request_count"] += 1
             return True
         return False
+limiter = FixedWindowRateLimiter(3, 10)
+
+print(limiter.allow_request("Prashamsa"))
+print(limiter.allow_request("Prashamsa"))
+print(limiter.allow_request("Prashamsa"))
+print(limiter.allow_request("Prashamsa"))
+
+print(limiter.allow_request("Prashamsa"))
+print(limiter.allow_request("Prakriti"))
+print(limiter.allow_request("Prakriti"))
