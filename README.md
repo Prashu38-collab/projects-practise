@@ -41,16 +41,21 @@ tabs[0].url gives the page URL.
 Step 3 : We need to detect the tab changes
 
 User changes tab ==> chrome provides an event chrome.tabs.onActivated that Tells when the user switches to another tab.
-       |
+       |||
 Chrome detects the change
-       |
+       |||
 Our code runs
-       |
+       |||
 Fetch new tab
-       |
+       |||
 Print title + URL
 
-Step 4: Track Time Spent on Each Tab
+Step 4: Track Time Spent on Each Tab - we used datetime function 
+step 5 : in step 5 we connect datetime function with chrome browser
+step 6: Create Activity Records
+step 7: connect with python
+
+
 
 
 
