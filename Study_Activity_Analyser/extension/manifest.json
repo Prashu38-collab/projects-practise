@@ -1,0 +1,12 @@
+{
+    "manifest_version":3,
+    "name":"Study Activity Analyzer",
+    "version": "1.0.0",
+    "description":"Tracks browser activity for study analysis",
+    "permissions": [
+        "tabs"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}
