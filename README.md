@@ -25,3 +25,34 @@ In this project I understand the module pyttsx , it is an offline text to speech
 PDF file reader will help me to read pdf
 numpages will help me to read out any pages from the book
 Its so interesting that people have created so many modules for smooth software development. 
+
+In study time analyser project first, I created
+manifest.json — tells Chrome that this folder is an extension and defines its name, version, permissions, and background script.
+background.js — runs in the background and will later detect browser activity.
+The extension acts as a bridge between Chrome and Python, because Python cannot directly access Chrome's active tabs.
+
+Step 2: we need to detect an active browser tab
+V1:  We fetched from chrome.tabs.query and defined a function that gives the tab that is currently active in the current browser window.
+
+chrome.tabs.query() gets information about the active tab.
+tabs[0].title gives the page title.
+tabs[0].url gives the page URL. 
+
+Step 3 : We need to detect the tab changes
+
+User changes tab ==> chrome provides an event chrome.tabs.onActivated that Tells when the user switches to another tab.
+       |
+Chrome detects the change
+       |
+Our code runs
+       |
+Fetch new tab
+       |
+Print title + URL
+
+Step 4: Track Time Spent on Each Tab
+
+
+
+
+
