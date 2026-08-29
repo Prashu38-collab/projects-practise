@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from sqlalchemy import create_engine, Column, Integer, String, Float
+from sqlalchemy import create_engine, Column, Integer, String, Float,Boolean
 from sqlalchemy.orm import sessionmaker, declarative_base
+from urllib.parse import urlparse
 
 app=FastAPI()
 # Allow requests from the Chrome extension
@@ -27,6 +28,9 @@ class StudyActivity(Base):
     title=Column(String)
     url=Column(String)
     duration=Column(Float)
+    domain=Column(String)
+    confidence = Column(Float, default=0.0)
+    needs_review = Column(Boolean, default=True)
 # Create the table in the database
 Base.metadata.create_all(engine)
 
@@ -34,10 +38,17 @@ Base.metadata.create_all(engine)
 @app.post("/activity")
 def receive_activity(activity: dict): #this is a typehint
     db_session = Session()
+    # Extract domain from URL
+    parsed_url = urlparse(activity.get("url"))
+
+    domain = parsed_url.netloc
     study_activity = StudyActivity(
         title=activity.get("title"),
         url=activity.get("url"),
-        duration=activity.get("duration")
+        duration=activity.get("duration"),
+        domain=domain,
+        confidence=activity.get("confidence", 0.0),
+        needs_review=activity.get("needs_review", True)
     )
     db_session.add(study_activity)
     db_session.commit()
@@ -51,5 +62,19 @@ def receive_activity(activity: dict): #this is a typehint
 def get_activities():
     db_session = Session()
     activities = db_session.query(StudyActivity).all()
+    result = []
+
+    for activity in activities:
+        result.append({
+            "id": activity.id,
+            "title": activity.title,
+            "url": activity.url,
+            "duration": activity.duration,
+             "domain": activity.domain,
+            "confidence": activity.confidence,
+            "needs_review": activity.needs_review
+            
+        })
+    
     db_session.close()
-    return activities
+    return result
