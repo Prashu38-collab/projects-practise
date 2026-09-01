@@ -1,0 +1,211 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --color-paper: #f7f2e9;
+  --color-paper-deep: #efe7d8;
+  --color-card: #fffdf7;
+  --color-ink: #22201c;
+  --color-ink-soft: #6b6458;
+  --color-ink-faint: #a49c8d;
+  --color-line: #e3dac8;
+  --color-accent: #2545d6;
+  --color-accent-deep: #172fa8;
+  --color-accent-paper: #e8ecfb;
+  --color-amber: #d97706;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+:root {
+  /* Palette — warm paper + ink + cobalt accent + amber highlight */
+  --paper: #f7f2e9;
+  --paper-deep: #efe7d8;
+  --card: #fffdf7;
+  --ink: #22201c;
+  --ink-soft: #6b6458;
+  --ink-faint: #a49c8d;
+  --line: #e3dac8;
+  --accent: #2545d6; /* cobalt */
+  --accent-deep: #172fa8;
+  --accent-paper: #e8ecfb;
+  --amber: #d97706;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --shadow-card: 0 1px 2px rgba(34, 32, 28, 0.05),
+    0 8px 24px -12px rgba(34, 32, 28, 0.18);
+
+  --reveal-gap: 80ms;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-display);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Layered atmospheric background: paper with a faint blueprint grid + warm tint */
+body {
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(rgba(37, 69, 214, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(37, 69, 214, 0.045) 1px, transparent 1px),
+    radial-gradient(1200px 500px at 85% -10%, rgba(217, 119, 6, 0.10), transparent 60%),
+    radial-gradient(900px 400px at -5% 0%, rgba(37, 69, 214, 0.08), transparent 55%);
+  background-size: 32px 32px, 32px 32px, 100% 100%, 100% 100%;
+  background-attachment: fixed;
+}
+
+/* Ink serif for display text */
+.font-display {
+  font-family: var(--font-display);
+  font-variation-settings: "opsz" 72;
+}
+
+/* Mono for numbers / data */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* ---- Load reveal: staggered fade + rise for cards/tiles ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(10px);
+  animation: rise 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes rise {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Cards */
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--radius, 14px);
+  box-shadow: var(--shadow-card);
+  animation: rise 520ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
+/* Section eyebrow label */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* Numeric data tile */
+.stat-value {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+/* Subtle focus ring consistent with the aesthetic */
+a:focus-visible,
+button:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   Gravitational field
+   Cards are drawn inward from the edges like mass collapsing
+   toward a central lens, over a subtly curved field.
+   ============================================================ */
+
+.gravity-viewport {
+  perspective: 1200px;
+  perspective-origin: 50% 0%;
+}
+
+/* The whole grid gently curves like bent spacetime (barrel warp). */
+.gravity-field {
+  transform: perspective(1200px) rotateX(1.6deg);
+  transform-origin: 50% 0%;
+}
+
+/* Each card converges toward the grid center on load. --gx/--gy are the
+   direction (toward center) set by JS; scale + translateZ read as a pull
+   through curved space with a springy overshoot. */
+.gravity-cell {
+  transition:
+    transform 520ms cubic-bezier(0.34, 1.45, 0.5, 1),
+    box-shadow 480ms ease,
+    filter 480ms ease;
+  will-change: transform;
+}
+
+/* Override the generic .card entrance so gravity choreography takes over. */
+.card.gravity-cell {
+  animation: none;
+  opacity: 1;
+}
+
+.gravity-cell.warp-in {
+  animation: collapse 720ms cubic-bezier(0.22, 1.4, 0.36, 1) forwards;
+}
+
+@keyframes collapse {
+  0% {
+    opacity: 0;
+    transform: translate3d(var(--gx, 0), var(--gy, 80px), -260px)
+      scale(0.4) rotateX(18deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1) rotateX(0deg);
+  }
+}
+
+/* Looping micro-drift after arrival: a slow gravitational wobble. */
+.gravity-cell.settled {
+  animation: drift 9s ease-in-out infinite;
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -3px, 0);
+  }
+}
+
+/* Magnetic pull toward the cursor, computed live via --mx/--my (px). */
+.gravity-cell.magnetic:hover {
+  transform: translate3d(var(--mx, 0), var(--my, 0), 34px)
+    scale(1.035);
+  box-shadow: 0 22px 40px -16px rgba(37, 69, 214, 0.35),
+    0 0 0 1px rgba(37, 69, 214, 0.12);
+  filter: saturate(1.06);
+  z-index: 2;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gravity-cell.warp-in,
+  .gravity-cell.settled {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+}

@@ -1,2 +1,11 @@
+<<<<<<< HEAD
 __pycache__/
 echo ".DS_Store" >> .gitignore
+=======
+.venv/
+__pycache__/
+*.pyc
+*.db
+node_modules/
+dist/
+>>>>>>> b3b55d0eabac0bf02e036ade0bde6c95d5d55eba

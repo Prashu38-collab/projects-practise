@@ -1,0 +1,11 @@
+{
+    "manifest_version": 3,
+    "name": "Study Activity Analyzer",
+    "version": "1.2.0",
+    "description": "Tracks browsing sessions and sends them to the Study Activity Analyzer backend for analysis.",
+    "permissions": ["tabs", "storage", "alarms"],
+  "host_permissions": ["http://127.0.0.1:8000/*"],
+    "background": {
+        "service_worker": "background.js"
+    }
+}
