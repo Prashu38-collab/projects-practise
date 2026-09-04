@@ -1,5 +1,7 @@
+
 import pygame
 import math
+import random
 
 pygame.init()
 
@@ -9,16 +11,16 @@ WIDTH = 1000
 HEIGHT = 900
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Solar System V2 - Fake 3D")
+pygame.display.set_caption("Solar System V2")
 
 clock = pygame.time.Clock()
 
-# 2. SUN POSITIO
+# 2. SUN POSITIOn
 
 SUN_X = WIDTH // 2
 SUN_Y = HEIGHT // 2
 
-# 3. PLANET DAT
+# 3. PLANET DATa
 
 planets = [
     {
@@ -87,24 +89,73 @@ planets = [
     }
 ]
 
-# 4. MAIN GAME LOOp
+# 4. CREATE BACKGROUND STAR
+
+stars = []
+
+for _ in range(150):
+
+    star_x = random.randint(0, WIDTH)
+    star_y = random.randint(0, HEIGHT)
+    star_size = random.randint(1, 3)
+
+    stars.append(
+        (star_x, star_y, star_size)
+    )
+
+# 5. CREATE ASTEROID
+
+asteroids = []
+
+for _ in range(100):
+
+    asteroid = {
+        "distance": random.randint(225, 250),
+        "angle": random.uniform(0, math.pi * 2),
+        "speed": random.uniform(0.002, 0.008),
+        "size": random.randint(1, 3)
+    }
+
+    asteroids.append(asteroid)
+
+# 6. MOON DAT
+
+moon_distance = 30
+moon_angle = 0
+moon_speed = 0.08
+
+# 7. MAIN GAME LOOP
 
 running = True
 
 while running:
 
     # Handle events
-   
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             running = False
+
     # Clear previous frame
-   
     screen.fill((0, 0, 0))
-   
-    # Draw the Sun
-   
+
+    # DRAW STARS
+
+    for star in stars:
+
+        star_x = star[0]
+        star_y = star[1]
+        star_size = star[2]
+
+        pygame.draw.circle(
+            screen,
+            (255, 255, 255),
+            (star_x, star_y),
+            star_size
+        )
+
+    # DRAW SUN
+
     pygame.draw.circle(
         screen,
         (255, 255, 0),
@@ -112,29 +163,29 @@ while running:
         35
     )
 
-    # 5. PROCESS EVERY PLANE
+    # PROCESS EVERY PLANET
+
+    # We need these for the Moon
+    earth_x = 0
+    earth_y = 0
 
     for planet in planets:
 
         distance = planet["distance"]
         angle = planet["angle"]
-       
-        # 6. CREATE 3D POSITION
-       
-        x = distance * math.cos(angle)
 
+
+        # 3D world coordinates
+        x = distance * math.cos(angle)
+        y = 0
         z = distance * math.sin(angle)
 
-        y = 0
-       
-        # 7. PROJECT 3D -2D SCREEN
-       
-        screen_x = SUN_X + x
 
+        # Project 3D -> 2D
+        screen_x = SUN_X + x
         screen_y = SUN_Y + z * 0.5
-       
-        # 8. DRAW PLANET
-    
+
+        # Draw planet
         pygame.draw.circle(
             screen,
             planet["color"],
@@ -142,16 +193,64 @@ while running:
             planet["size"]
         )
 
-        # 9. UPDATE PLANET
-       
+        # Save Earth's screen position
+        if planet["name"] == "Earth":
+
+            earth_x = screen_x
+            earth_y = screen_y
+        # Update planet
         planet["angle"] += planet["speed"]
-    # Show new frame
 
+    # DRAW MOON
+    moon_x = (
+        earth_x
+        + moon_distance * math.cos(moon_angle)
+    )
+
+    moon_y = (
+        earth_y
+        + moon_distance * math.sin(moon_angle)
+    )
+
+    pygame.draw.circle(
+        screen,
+        (200, 200, 200),
+        (int(moon_x), int(moon_y)),
+        4
+    )
+
+    moon_angle += moon_speed
+
+    # DRAW ASTEROIDS
+
+    for asteroid in asteroids:
+
+        asteroid_x = (
+            SUN_X
+            + asteroid["distance"]
+            * math.cos(asteroid["angle"])
+        )
+
+        asteroid_y = (
+            SUN_Y
+            + asteroid["distance"]
+            * math.sin(asteroid["angle"])
+            * 0.5
+        )
+
+        pygame.draw.circle(
+            screen,
+            (130, 130, 130),
+            (int(asteroid_x), int(asteroid_y)),
+            asteroid["size"]
+        )
+
+        asteroid["angle"] += asteroid["speed"]
+    # SHOW NEW FRAME
     pygame.display.flip()
-
-    # Limit FPS
 
     clock.tick(60)
 
 
 pygame.quit()
+
