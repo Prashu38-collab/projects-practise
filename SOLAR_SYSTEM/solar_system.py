@@ -3,25 +3,22 @@ import math
 
 pygame.init()
 
+# 1. SCREEN SETUp
 
-# Screen setup
-
-WIDTH, HEIGHT = 1000, 900
+WIDTH = 1000
+HEIGHT = 900
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Solar System Simulation")
+pygame.display.set_caption("Solar System V2 - Fake 3D")
 
 clock = pygame.time.Clock()
 
-
-# Sun position
+# 2. SUN POSITIO
 
 SUN_X = WIDTH // 2
 SUN_Y = HEIGHT // 2
 
-
-
-# All planets
+# 3. PLANET DAT
 
 planets = [
     {
@@ -90,28 +87,23 @@ planets = [
     }
 ]
 
+# 4. MAIN GAME LOOp
 
 running = True
 
 while running:
 
-   
     # Handle events
    
     for event in pygame.event.get():
 
         if event.type == pygame.QUIT:
             running = False
-
-
-   
-    # Background
+    # Clear previous frame
    
     screen.fill((0, 0, 0))
-
-
    
-    # Draw Sun
+    # Draw the Sun
    
     pygame.draw.circle(
         screen,
@@ -120,36 +112,44 @@ while running:
         35
     )
 
+    # 5. PROCESS EVERY PLANE
 
-   
-    # Loop through every planet
-   
     for planet in planets:
 
-        # Get the values from dictionary
         distance = planet["distance"]
         angle = planet["angle"]
+       
+        # 6. CREATE 3D POSITION
+       
+        x = distance * math.cos(angle)
 
-        # Calculate position
-        planet_x = SUN_X + distance * math.cos(angle)
-        planet_y = SUN_Y + distance * math.sin(angle)
+        z = distance * math.sin(angle)
 
-        # Draw planet
+        y = 0
+       
+        # 7. PROJECT 3D -2D SCREEN
+       
+        screen_x = SUN_X + x
+
+        screen_y = SUN_Y + z * 0.5
+       
+        # 8. DRAW PLANET
+    
         pygame.draw.circle(
             screen,
             planet["color"],
-            (int(planet_x), int(planet_y)),
+            (int(screen_x), int(screen_y)),
             planet["size"]
         )
 
-        # Update only this planet's angle
+        # 9. UPDATE PLANET
+       
         planet["angle"] += planet["speed"]
+    # Show new frame
 
-
-   
-    # Update display
-   
     pygame.display.flip()
+
+    # Limit FPS
 
     clock.tick(60)
 
