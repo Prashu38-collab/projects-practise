@@ -1,0 +1,3 @@
+"""
+Maze Generation Package
+"""
