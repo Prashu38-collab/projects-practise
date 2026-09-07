@@ -1,0 +1,13 @@
+# Air Piano dependencies
+
+# MediaPipe is used of 0.10.21. Newer versions (>= 1.0.0) crash on
+#  macOS with "DrishtiMetalHelper Service is unavailable" during Hand
+# Landmarker initialization. 0.10.21 works reliably well on macOS ARM64.
+mediapipe==0.10.21
+
+# opencv-python and numpy are used together for numpy 1.x compatibility
+# which mediapipe 0.10.21 requires. Use 4.x to stay on numpy 1.x.
+opencv-python==4.11.0.86
+numpy==1.26.4
+
+pygame>=2.5.0
