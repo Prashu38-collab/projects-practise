@@ -27,7 +27,9 @@ HandLandmarkerResult = mp.tasks.vision.HandLandmarkerResult
 @dataclass(frozen=True)
 class Hand:
     """All 21 hand landmarks in pixel coordinates."""
-
+    handedness: str
+    confidence: float
+    landmarks: np.ndarray
 def find_model_path() -> str:
     """Locate the ``hand_landmarker.task`` model file."""
 
