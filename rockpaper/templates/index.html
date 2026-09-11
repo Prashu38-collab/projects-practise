@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Rock Paper Scissors</title>
+
+    <link
+        rel="stylesheet"
+        href="{{ url_for('static', filename='style.css') }}"
+    >
+</head>
+
+<body>
+
+    <main class="game-container">
+
+        <header>
+            <p class="subtitle">PYTHON GAME</p>
+
+            <h1>
+                Rock
+                <span>Paper</span>
+                Scissors
+            </h1>
+
+            <p class="description">
+                Choose your weapon and challenge the computer.
+            </p>
+        </header>
+
+
+        <!-- SCOREBOARD -->
+
+        <section class="scoreboard">
+
+            <div class="score">
+                <span>You</span>
+                <strong id="player-score">0</strong>
+            </div>
+
+            <div class="score">
+                <span>Draws</span>
+                <strong id="draw-score">0</strong>
+            </div>
+
+            <div class="score">
+                <span>Computer</span>
+                <strong id="computer-score">0</strong>
+            </div>
+
+        </section>
+
+
+        <!-- BATTLE AREA -->
+
+        <section class="battle">
+
+            <div class="player-side">
+
+                <p>You</p>
+
+                <div
+                    class="choice-display"
+                    id="player-choice"
+                >
+                    ?
+                </div>
+
+            </div>
+
+
+            <div class="vs">
+                VS
+            </div>
+
+
+            <div class="computer-side">
+
+                <p>Computer</p>
+
+                <div
+                    class="choice-display"
+                    id="computer-choice"
+                >
+                    ?
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESULT -->
+
+        <section class="result-area">
+
+            <h2 id="result">
+                Make your move
+            </h2>
+
+            <p id="message">
+                Choose rock, paper, or scissors below.
+            </p>
+
+        </section>
+
+
+        <!-- CHOICES -->
+
+        <section class="choices">
+
+            <button
+                class="choice-button"
+                data-choice="rock"
+            >
+                
+                <span>Rock</span>
+            </button>
+
+
+            <button
+                class="choice-button"
+                data-choice="paper"
+            >
+                
+                <span>Paper</span>
+            </button>
+
+
+            <button
+                class="choice-button"
+                data-choice="scissors"
+            >
+                
+                <span>Scissors</span>
+            </button>
+
+        </section>
+
+
+        <!-- RESET -->
+
+        <button
+            id="reset-button"
+            class="reset-button"
+        >
+            Reset Game
+        </button>
+
+    </main>
+
+
+    <script
+        src="{{ url_for('static', filename='script.js') }}"
+    ></script>
+
+</body>
+
+</html>
