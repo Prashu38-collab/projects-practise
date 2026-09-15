@@ -1,11 +1,4 @@
-"""Piano calibration: position the virtual piano within the camera frame.
-
-All calibration values are stored as fractions in the range [0, 1] of the
-frame dimensions. This makes the calibration independent of any specific
-camera resolution. Pixel positions are computed on demand from the current
-frame size.
-"""
-
+"""Piano calibration: position the virtual piano within the camera frame."""
 from __future__ import annotations
 
 import json
@@ -31,10 +24,10 @@ class PianoCalibration:
     """Normalized placement of the piano within the camera frame.
 
     All fractions are relative to the frame dimensions:
-        x_fraction      — left edge of the keyboard (0..1 of width)
-        y_fraction      — top edge of the keyboard (0..1 of height)
-        width_fraction  — total keyboard width (0..1 of width)
-        height_fraction — total keyboard height (0..1 of height)
+        x_fraction      — left edge of the keyboard 
+        y_fraction      — top edge of the keyboard 
+        width_fraction  — total keyboard width 
+        height_fraction — total keyboard height
     """
 
     x_fraction: float = DEFAULT_X_FRACTION
@@ -65,15 +58,10 @@ class PianoCalibration:
         frame_width: int,
         frame_height: int,
     ) -> tuple[int, int, int, int]:
-        """Convert the normalized calibration to pixel geometry.
+        """Convert the normalized calibration to pixel geometry."""
 
-        Args:
-            frame_width: Frame width in pixels.
-            frame_height: Frame height in pixels.
+        
 
-        Returns:
-            A tuple (x, y, width, height) in pixels.
-        """
         x = int(self.x_fraction * frame_width)
         y = int(self.y_fraction * frame_height)
         width = int(self.width_fraction * frame_width)
@@ -91,14 +79,7 @@ class PianoCalibration:
 
     @classmethod
     def from_dict(cls, data: dict[str, float]) -> "PianoCalibration":
-        """Build a calibration from a dict, applying defaults for missing keys.
-
-        Args:
-            data: Dict possibly containing the four fraction fields.
-
-        Returns:
-            A PianoCalibration with unknown keys ignored.
-        """
+        """Create a calibration from a dict, filling in defaults for missing values."""
         defaults = cls().to_dict()
         merged = {**defaults, **data}
         return cls(
@@ -120,18 +101,9 @@ class PianoCalibration:
 
     @classmethod
     def load(cls, path: str = CALIBRATION_FILENAME) -> "PianoCalibration":
-        """Load a calibration from a JSON file.
+        """Load a calibration from a JSON file."""
 
-        Args:
-            path: Input file path.
-
-        Returns:
-            The loaded calibration.
-
-        Raises:
-            FileNotFoundError: If the file does not exist.
-            ValueError: If the file is malformed.
-        """
+        
         if not os.path.isfile(path):
             raise FileNotFoundError(
                 f"Calibration file not found: {path}"
