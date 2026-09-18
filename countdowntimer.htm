@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year 2027 Countdown</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .year {
+            font-size: 1.5em;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .time-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            min-width: 150px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .time-value {
+            font-size: 4em;
+            font-weight: bold;
+            display: block;
+            line-height: 1;
+        }
+
+        .time-label {
+            font-size: 1.2em;
+            margin-top: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.8;
+        }
+
+        .message {
+            margin-top: 50px;
+            font-size: 1.5em;
+            opacity: 0;
+            transition: opacity 1s;
+        }
+
+        .message.show {
+            opacity: 1;
+            animation: pulse 1s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Fireworks animation */
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            animation: explode 1s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(var(--x), var(--y));
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2em; }
+            .time-value { font-size: 2.5em; }
+            .time-box { min-width: 100px; padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Countdown to New Year</h1>
+        <div class="year">2027 is coming!</div>
+        
+        <div class="countdown" id="countdown">
+            <div class="time-box">
+                <span class="time-value" id="days">00</span>
+                <div class="time-label">Days</div>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="hours">00</span>
+                <div class="time-label">Hours</div>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="minutes">00</span>
+                <div class="time-label">Minutes</div>
+            </div>
+            <div class="time-box">
+                <span class="time-value" id="seconds">00</span>
+                <div class="time-label">Seconds</div>
+            </div>
+        </div>
+        
+        <div class="message" id="message">
+             Happy New Year 2027!
+        </div>
+    </div>
+
+    <script>
+        function countdown() {
+            const now = new Date();
+            const currentYear = now.getFullYear();
+            const newYearDate = new Date(currentYear + 1, 0, 1, 0, 0, 0); // Jan 1 of next year
+            
+            const diff = newYearDate - now;
+            
+            if (diff <= 0) {
+                // New Year has arrived!
+                document.getElementById('countdown').style.display = 'none';
+                document.getElementById('message').classList.add('show');
+                createFireworks();
+                return;
+            }
+            
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('days').textContent = String(days).padStart(2, '0');
+            document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+        }
+
+        function createFireworks() {
+            const colors = ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff', '#ffa500'];
+            
+            setInterval(() => {
+                const firework = document.createElement('div');
+                firework.className = 'firework';
+                firework.style.left = Math.random() * window.innerWidth + 'px';
+                firework.style.top = Math.random() * window.innerHeight / 2 + 'px';
+                firework.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                firework.style.setProperty('--x', (Math.random() - 0.5) * 200 + 'px');
+                firework.style.setProperty('--y', (Math.random() - 0.5) * 200 + 'px');
+                
+                document.body.appendChild(firework);
+                
+                setTimeout(() => firework.remove(), 1000);
+            }, 300);
+        }
+
+        // Update every second
+        countdown();
+        setInterval(countdown, 1000);
+    </script>
+</body>
+</html>
