@@ -118,7 +118,7 @@ for _ in range(100):
 
     asteroids.append(asteroid)
 
-# 6. MOON DAT
+# 6. MOON DATa
 
 moon_distance = 30
 moon_angle = 0
