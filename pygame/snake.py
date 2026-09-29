@@ -1,5 +1,4 @@
 import random
-import sys
 
 import pygame
 
@@ -11,15 +10,20 @@ WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (213, 50, 80)
 GREEN = (0, 255, 0)
+BLUE = (0, 0, 255)
 
 # Display settings
 WIDTH, HEIGHT = 600, 400
 DIS = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Snake Game by Qwen')
+pygame.display.set_caption('Snake Game - Speed Increases!')
 
 CLOCK = pygame.time.Clock()
 SNAKE_BLOCK = 10
-SNAKE_SPEED = 15
+
+# Initial speed 
+INITIAL_SPEED = 10
+#  increase speed per food eaten by 2 units
+SPEED_INCREMENT = 1
 
 
 def game_loop():
@@ -34,16 +38,25 @@ def game_loop():
     snake_list = []
     length_of_snake = 1
 
+    # Place initial food
     foodx = round(random.randrange(0, WIDTH - SNAKE_BLOCK) / 10.0) * 10.0
     foody = round(random.randrange(0, HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
+
+    # Current speed starts at initial value
+    current_speed = INITIAL_SPEED
 
     while not game_over:
         while game_close:
             DIS.fill(BLACK)
             font = pygame.font.SysFont("bahnschrift", 35)
             mesg = font.render(
-                "You Lost! Press C to Play Again or Q to Quit", True, RED)
+                f"Game Over! Score: {length_of_snake-1}", True, RED)
+            score_msg = font.render("Press C-Play Again or Q-Quit", True, BLUE)
+
+            # Center the text
             DIS.blit(mesg, [WIDTH/6, HEIGHT/3])
+            DIS.blit(score_msg, [WIDTH/6, HEIGHT/3 + 50])
+
             pygame.display.update()
 
             for event in pygame.event.get():
@@ -52,7 +65,7 @@ def game_loop():
                         game_over = True
                         game_close = False
                     if event.key == pygame.K_c:
-                        game_loop()
+                        game_loop()  # Restart the game
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -88,10 +101,12 @@ def game_loop():
         if len(snake_list) > length_of_snake:
             del snake_list[0]
 
+        # Check if snake hit itself
         for segment in snake_list[:-1]:
             if segment == snake_head:
                 game_close = True
 
+        # Draw Snake
         for segment in snake_list:
             pygame.draw.rect(
                 DIS, WHITE, [segment[0], segment[1], SNAKE_BLOCK, SNAKE_BLOCK])
@@ -106,10 +121,18 @@ def game_loop():
                 0, HEIGHT - SNAKE_BLOCK) / 10.0) * 10.0
             length_of_snake += 1
 
-        CLOCK.tick(SNAKE_SPEED)
+            # Increase speed slightly when food is eaten
+            current_speed += SPEED_INCREMENT
+
+            # Optional: Cap the maximum speed so it doesn't become impossible
+            if current_speed > 40:
+                current_speed = 40
+
+        # Use the dynamic current_speed instead of a fixed constant
+        CLOCK.tick(current_speed)
 
     pygame.quit()
-    sys.exit()
+    quit()
 
 
 game_loop()
