@@ -11,6 +11,8 @@ def home():
 def about():
     return {"message":"This is about page"}
 
-@app.get("/users")
-def users():
-    return {"Users":["Prashamsa","kritika","paru"]}
+@app.get("/users/{user_id}")
+def get_users(user_id:int):
+    return {"Users":user_id}
+
+# url ma kunai dynamic value change garnu paryo vane path parameters
