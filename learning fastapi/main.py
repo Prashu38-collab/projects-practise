@@ -16,3 +16,15 @@ def get_users(user_id:int):
     return {"Users":user_id}
 
 # url ma kunai dynamic value change garnu paryo vane path parameters
+@app.get("/college")
+
+# optional parameters: def get_college(college: str = None): this format is removed and is not available for 3.10+
+# optional paramters
+def get_college(college:str|None =None): 
+    return {"college":college}
+
+# default values
+
+@app.get("/products")
+def get_products(limit: int=10):
+    return {"limit":limit}
