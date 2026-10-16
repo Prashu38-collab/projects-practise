@@ -28,3 +28,14 @@ def get_college(college:str|None =None):
 @app.get("/products")
 def get_products(limit: int=10):
     return {"limit":limit}
+
+# multiple query paramaters
+
+@app.get("/items")
+def get_items(name:str|None=None,price:int=0):
+    return {
+        "name":name,
+        "price":price
+    }
+
+    
