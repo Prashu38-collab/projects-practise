@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mind Trap </title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            text-align: center;
+        }
+
+        .game {
+            width: 90%;
+            max-width: 650px;
+            padding: 35px;
+            background: #1f2937;
+            border-radius: 20px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, .4);
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .doors {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            margin: 30px 0;
+        }
+
+        button {
+            border: none;
+            border-radius: 15px;
+            padding: 20px 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background: #374151;
+            color: white;
+            transition: .2s;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            background: #4b5563;
+        }
+
+        .door {
+            font-size: 3rem;
+            width: 150px;
+            height: 180px;
+        }
+
+        #message {
+            min-height: 50px;
+            font-size: 1.2rem;
+            margin: 20px 0;
+        }
+
+        .score {
+            color: #fbbf24;
+            font-weight: bold;
+        }
+
+        .restart {
+            background: #2563eb;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game">
+        <h1> Mind Trap</h1>
+
+        <p>
+            Three doors. One contains a reward.<br>
+            Can you figure out which one?
+        </p>
+
+        <div class="score">
+            Score: <span id="score">0</span>
+        </div>
+
+        <div class="doors">
+            <button class="door" onclick="chooseDoor(0)"><br>A</button>
+            <button class="door" onclick="chooseDoor(1)"><br>B</button>
+            <button class="door" onclick="chooseDoor(2)"><br>C</button>
+        </div>
+
+        <div id="message">
+            Choose a door
+        </div>
+
+        <button class="restart" onclick="newRound()">
+             New Round
+        </button>
+    </div>
+
+    <script>
+        let correctDoor;
+        let score = 0;
+        let gameOver = false;
+
+        function newRound() {
+            correctDoor = Math.floor(Math.random() * 3);
+            gameOver = false;
+
+            document.getElementById("message").innerHTML =
+                "Choose a door... ";
+
+            document.querySelectorAll(".door").forEach(button => {
+                button.disabled = false;
+                button.style.background = "#374151";
+            });
+        }
+
+        function chooseDoor(choice) {
+            if (gameOver) return;
+
+            gameOver = true;
+
+            const buttons = document.querySelectorAll(".door");
+
+            buttons.forEach(button => {
+                button.disabled = true;
+            });
+
+            if (choice === correctDoor) {
+                score += 10;
+
+                buttons[choice].style.background = "#16a34a";
+
+                document.getElementById("message").innerHTML =
+                    " CORRECT! Your mind is sharp! +10 points";
+            } else {
+                buttons[choice].style.background = "#dc2626";
+                buttons[correctDoor].style.background = "#16a34a";
+
+                document.getElementById("message").innerHTML =
+                    ` Wrong! The reward was behind Door ${String.fromCharCode(65 + correctDoor)
+                    }.`;
+            }
+
+            document.getElementById("score").textContent = score;
+        }
+
+        newRound();
+    </script>
+
+</body>
+
+</html>
